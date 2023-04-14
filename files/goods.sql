@@ -1,20 +1,17 @@
 --商品情報のテーブルを作成
-Create Table GOODS
-{ 
-	GID NUMBER(10) primary key,
-	GNAME VARCHAR2(20) not null unique,
-	GPRICE NUMBER(18,2) not null,
-	GNUM NUMBER(11) not null
-};
---GID主キーの自動生成ため
---1、商品情報テーブルを基に、シークエンスを作成
-Create Sequence goods_seq --シークエンス名
-	Start with   1
-	Increment by 1
-	Minvalue     1 
-	Maxvalue     10000　--最大値
-	Nocycle　--最大値が終了後、ループは続けない
-	Cache 10　--効率向上のため、バッファリングは１０を設定
+CREATE TABLE GOODS_mst (
+  GID int(10) NOT NULL AUTO_INCREMENT,
+  GNAME varchar(20) NOT NULL UNIQUE,
+  GPRICE decimal(18,2) NOT NULL,
+  GNUM int(11) NOT NULL,
+  PRIMARY KEY (GID)
+)AUTO_INCREMENT=1;
+
+
+ALTER TABLE GOODS_mst MODIFY COLUMN GID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+ADD CONSTRAINT min_GID CHECK (GID>=0),
+ADD CONSTRAINT max_GID CHECK (GID<=100);
+
 
 --2、とりがーを作って、GIDの値を自動採番
 Create Trigger goods_trigger
@@ -22,6 +19,6 @@ Create Trigger goods_trigger
 	For each row
 	begin
 		Select goods_seq.nextval Into :new.GID From dual;
-	End;
+	End; 
 	
 --truncate
