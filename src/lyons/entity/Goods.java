@@ -58,5 +58,10 @@ public class Goods {
     public void setGprice(Double GPRICE){
       this.GPRICE = GPRICE;
     }
-    
+    public int getGnum(){
+      return GNUM;
+    }
+    public void setGnum(int GNUM){
+      this.GNUM = GNUM;
+    }
 }
