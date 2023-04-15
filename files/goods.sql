@@ -15,10 +15,8 @@ ADD CONSTRAINT max_GID CHECK (GID<=100);
 
 --2、とりがーを作って、GIDの値を自動採番
 Create Trigger goods_trigger
-	Before Insert on goods
-	For each row
-	begin
-		Select goods_seq.nextval Into :new.GID From dual;
-	End; 
+Before Insert on GOODS_mst
+For each row
+SET NEW.GID = (SELECT nextval FROM goods_seq);
 	
 --truncate
