@@ -20,10 +20,7 @@ public final class GoodsDao
     PreparedStatement pstmt = null;
     ResultSet rs = null;
 
-    /*
-     * テーブルGOODS_mstに商品を添加
-     */
-    public boolean addGoods(Goods goods){
+    public boolean addGoods(Goods goods){//商品の添加
       boolean bool = false;
       conn = DbConn.getconn();
       String sql = "insert into GOODS_mst(GNAME,GPRICE,GNUM)values(?,?,?)";
@@ -45,11 +42,8 @@ public final class GoodsDao
                     }
     return bool;
     }
-/*
- * テーブルGOODS_mstに商品情報の変更
- */
    
-    public boolean updateGoods(int key,Goods goods)
+    public boolean updateGoods(int key,Goods goods)//商品情報の変更
     {
       boolean bool = false;
       conn = DbConn.getconn();
@@ -114,5 +108,41 @@ public final class GoodsDao
             }
             return bool;
     }
-    
+            public boolean deleteGoods(int GID){//番号によって、商品を削除
+              boolean bool = false;
+              conn = DbConn.getconn();
+              String sql = "Delete From GOODS_mst where GID=?";
+                try{
+                  pstmt = conn.prepareStatement(sql);
+                  pstmt.setInt(1, GID);
+                  int rs = pstmt.executeUpdate();
+                  if (rs > 0){
+                    bool = true;
+                  }
+                }catch(SQLException e){
+                  e.printStackTrace();
+                }finally{
+                      DbClose.addClose(pstmt, conn);
+                }
+              return bool;
+            }
+            public ArrayList<Goods> queryGoods(int key){//リストから商品情報の検索
+              ArrayList<Goods>goodsList = new ArrayList<>();
+              conn = DbConn.getconn();
+
+              switch(key){
+                case 1:
+                  //key=1 商品数量 昇順検索
+                  String sqlGnum = "select * from GOODS_mst order by GNUM asc";
+                  try{
+                    pstmt = conn.prepareStatement(sqlGnum);
+                    rs = pstmt.executeQuery();
+                    while(rs.next()){
+                      int GID = rs.getInt("GID");
+                      
+                    }
+                  }
+              }
+            }
+
 }
