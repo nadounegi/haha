@@ -176,8 +176,55 @@ public final class GoodsDao
                   break;
                 case 3:
                 //key=3 キーワード検索
-                  String nameGet = ScannerChoice.
-              }
-            }
+                String nameGet = ScannerChoice.ScannerInfoString();
+                String sqlGname = "select * from GOODS_mst where GNAME like '%'||?||'%'";
+                try{
+                  pstmt = conn.prepareStatement(sqlGname);
+                  pstmt.setString(1, nameGet);
+                  rs = pstmt.executeQuery();
+                  while(rs.next()){
+                    int GID = rs.getInt("GID");
+                    String GNAME = rs.getString(2);
+                    double GPRICE = rs.getDouble(3);
+                    int GNUM = rs.getInt(4);
 
+                    Goods goods = new Goods(GID,GNAME,GPRICE,GNUM);
+                    goodsList.add(goods);
+                  }
+                }catch(SQLException e){
+                  e.printStackTrace();
+                }finally{
+                  DbClose.queryClose(pstmt, rs, conn);
+                }
+                break;
+               default:
+                break;
+              }
+              return goodsList;
+            }
+            //全部商品情報を表示
+            public ArrayList<Goods>displayGoods(){
+              ArrayList<Goods>goodsList = new ArrayList<Goods>();
+              conn = DbConn.getconn();
+              String sql = "select * from GOODS_mst";
+
+              try{
+                pstmt = conn.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+                  while(rs.next()){
+                    int GID = rs.getInt(1);
+                    String GNAME = rs.getString(2);
+                    double GPRICE = rs.getDouble("GPRICE");
+                    int GNUM = rs.getInt(4);
+
+                    Goods goods = new Goods(GID, GNAME, GPRICE, GNUM);
+                    goodsList.add(goods);
+                  }
+              }catch(SQLException e){
+                e.printStackTrace();
+              }finally{
+                DbClose.queryClose(pstmt, rs, conn);
+              }
+              return goodsList;
+            }
 }

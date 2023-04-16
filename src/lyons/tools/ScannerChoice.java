@@ -14,7 +14,7 @@ import lyons.page.SalesManPage;
 
 public class ScannerChoice {
   //キーボードから商品金額をゲット,小数点以下２桁
-  public double ScannerInfo(){
+  public static double ScannerInfo(){
     double num = 0.00;
     do{
       Scanner sc = new Scanner(System.in);
@@ -85,6 +85,7 @@ public class ScannerChoice {
     /*
      * 販売員添加、次のステップ
      * 販売員変更、次のステップ
+     * 販売員削除、次のステップ
      * 販売ん検索、次のステップ
      */
     public static void choiceSalesManNext(String oper){
@@ -94,8 +95,20 @@ public class ScannerChoice {
 
         if("y".equals(choice)||"Y".equals(choice)){
           SalesManPage.updateSalesManPage();
+        }if("updateSalesMan".equals(oper)){
+          SalesManPage.updateSalesManPage();
+        }else if("deleteSalesMan".equals(oper)){
+          SalesManPage.deleteSalesManPage();
+        }else if("addSalesMan".equals(oper)){
+          SalesManPage.addSalesManPage();
+        }else if("querySalesMan".equals(oper)){
+          SalesManPage.querySalesManPage();
         }
+      else if("N".equals(choice)||"n".equals(choice)){
+        MainPage.salesManMangementPage();
       }
+      System.err.println("\t入力間違い!");
+      }while(true);
+
     }
-  
-  }
+}
