@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import lyons.db.DbClose;
 import lyons.db.DbConn;
 import lyons.entity.Goods;
+import lyons.tools.ScannerChoice;
 
 /*
  * テーブルGOODS_mst操作
@@ -139,9 +140,43 @@ public final class GoodsDao
                     rs = pstmt.executeQuery();
                     while(rs.next()){
                       int GID = rs.getInt("GID");
-                      
+                      String GNAME = rs.getString(2);
+                      double GPRICE = rs.getDouble(3);
+                      int GNUM = rs.getInt(4);
+
+                      Goods goods = new Goods(GID,GNAME,GPRICE,GNUM);
+                      goodsList.add(goods);
                     }
+                  }catch(SQLException e){
+                    e.printStackTrace();
+                  }finally{
+                    DbClose.queryClose(pstmt, rs, conn);
                   }
+                  break;
+                case 2:
+                  //key=2 商品金額 昇順金額
+                  String sqlGprice = "select * from GOODS_mst order by GPRICE asc";//金額昇順
+                  try{
+                    pstmt = conn.prepareStatement(sqlGprice);
+                    rs = pstmt.executeQuery();
+                    while(rs.next()){//昇順した内容をリストに格納
+                      int GID = rs.getInt("GID");
+                      String GNAME = rs.getString(2);
+                      double GPRICE = rs.getDouble(3);
+                      int GNUM = rs.getInt(4);
+
+                      Goods goods = new Goods(GID,GNAME,GPRICE,GNUM);
+                      goodsList.add(goods);
+                    }
+                  }catch(SQLException e){
+                    e.printStackTrace();
+                  }finally{
+                    DbClose.queryClose(pstmt, rs, conn);
+                  }
+                  break;
+                case 3:
+                //key=3 キーワード検索
+                  String nameGet = ScannerChoice.
               }
             }
 
