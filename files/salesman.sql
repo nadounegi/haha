@@ -2,8 +2,8 @@
 CREATE TABLE Salesman_mst
 (
     SID int(10) NOT NULL AUTO_INCREMENT,
-    SPASSWORD VARCHAR(20) not null,
     SNAME	VARCHAR(10) not null unique,
+    SPASSWORD VARCHAR(20) not null,
     PRIMARY KEY (SID)
 ) AUTO_INCREMENT=1;
 
